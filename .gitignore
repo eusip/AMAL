@@ -5,6 +5,7 @@ TP/
 **/runs
 **/MNIST
 **/cifar-10-batches-py
+**/corpus
 
 *.pdf
 *.zip
