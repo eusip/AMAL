@@ -112,6 +112,7 @@ class AverageMeter(object):
 
 
 class ProgressMeter(object):
+	"""Keeps track of progress during the training process"""
 	def __init__(self, num_batches, meters, prefix=""):
 		self.batch_fmtstr = self._get_batch_fmtstr(num_batches)
 		self.meters = meters
@@ -129,7 +130,7 @@ class ProgressMeter(object):
 
 
 def accuracy(output, target, topk=(1,)):
-	"""Computes the accuracy over the k top predictions for the specified 
+	"""Computes the accuracy over the k top predictions for the specified
 	values of k"""
 	with torch.no_grad():
 		maxk = max(topk)
@@ -325,7 +326,7 @@ def autoencoder(resume=False):
 	for ep in range(start_epoch, N_EPOCHS):
 		print("=================\n==== EPOCH " +
 					str(ep + 1) + " ====\n=================\n")
-		
+
 		top1_train, top5_train, losses_train = epoch(
 			train, 'autoencoder', model, criterion, optimizer, ep + 1)  # train
 		top1_test, top5_test, losses_test = epoch(
@@ -411,6 +412,5 @@ def highway_network(resume=False):
 			'highway/epochs/accuracy/test', top1_test.avg, ep)
 
 if __name__ == '__main__':
-	# load_MNIST(BATCH_SIZE)
-	# autoencoder(resume=False)
+	autoencoder(resume=False)
 	highway_network(resume=False)

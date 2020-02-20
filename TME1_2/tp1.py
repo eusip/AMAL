@@ -1,5 +1,5 @@
 # standard libraries
-import random 
+import random
 
 # local libraries
 from classes import Context, Linear, MSELoss
@@ -60,7 +60,9 @@ def build_train_test_step(input_size, output_size, ctx, linear, criterion, lr):
 
 		if mode == 'test':
 			# testing step
+			# forward pass (predict y)
 			y_pred = linear.forward(ctx, x, w, b)
+			# compute loss
 			loss = criterion.forward(ctx, y_pred, y)
 
 		return loss
@@ -115,9 +117,9 @@ if __name__ == '__main__':
 	output_size = 1
 	n_epochs = 100  # number of epochs
 	lr = 1e-6  # learning rate for manually updating gradients
-	
+
 	# load data
-	data = np.loadtxt('../data/housing/housing.data')
+	data = np.loadtxt('housing/housing.data')
 	train = data[:int(len(data) * 0.8)]  # the first 80% of the dataset
 	test = data[int(len(data) * 0.8):]  # the last 20% of the dataset
 	x_train = torch.from_numpy(train[:, :-1])  # all features except MEDV
@@ -130,14 +132,14 @@ if __name__ == '__main__':
 	criterion = MSELoss()  # custom MSE loss function
 	train_test_step = build_train_test_step(
 		input_size, output_size, ctx, linear, criterion, lr)
-	
+
 	# weight and bias
 	w = torch.randn(input_size, output_size, dtype=torch.float64)
 	b = torch.randn(output_size, dtype=torch.float64)
 
 	for mode in ('batch','mini-batch'):
 		# lists of training/testing losses for each epoch
-		train_losses, test_losses = [], []  
+		train_losses, test_losses = [], []
 		for epoch in range(n_epochs):
 			# model training
 			x_batch, y_batch = batch_size(x_train, y_train, mode)
